@@ -1,26 +1,51 @@
 import React from 'react';
-import logo from './logo.svg';
+import { connect } from 'react-redux';
+import { addTodo } from './actions';
 import './App.css';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+class App extends React.Component {
+  state = {
+    task: ''
+  }
+
+  onInputChange = e => {
+    const {name, value} = e.target;
+    this.setState ({
+      [name] : value
+    })
+  }
+
+  onButtonClick = () => {
+    if (this.state.task) {
+      this.props.addTodo(this.state.task)
+      this.setState({
+        task: ''
+      })
+
+    }
+  }
+
+  render () {
+    return (
+      <>
+        <h1> Welcome to your Todo list </h1>
+        <ul>
+          {this.props.tasks.map(todo => {
+            return <li key={todo.value}>{todo.value}</li>
+          })}
+        </ul>
+        <input name='task' onChange={this.onInputChange} value={this.state.task} />
+        <button onClick={this.onButtonClick}> Add new todo </button>
+      </>
+    );
+    }
+  }
+
+
+  const mapStateToProps = state => {
+  return {
+    tasks: state.todos
+  }
 }
 
-export default App;
+export default connect(mapStateToProps, { addTodo, newFN })(App);
