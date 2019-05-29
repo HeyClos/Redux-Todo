@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { addTodo } from './actions';
+import { addTodo, toggleCompleted } from './actions';
 import './App.css';
 
 class App extends React.Component {
@@ -25,13 +25,21 @@ class App extends React.Component {
     }
   }
 
+  onListClick = name => this.props.toggleCompleted(name);
+
+  // will likely need a new method here to invoke the toggle
+  // the toggle will make it so my tasks can be checked off
+
   render () {
     return (
       <>
         <h1> Welcome to your Todo list </h1>
         <ul>
           {this.props.tasks.map(todo => {
-            return <li key={todo.value}>{todo.value}</li>
+            return <li 
+            key={todo.value}
+            onClick={() => this.onListClick(todo.value)}
+            >{`${todo.value} completed? : ${todo.completed}`}</li>
           })}
         </ul>
         <input name='task' onChange={this.onInputChange} value={this.state.task} />
@@ -48,4 +56,4 @@ class App extends React.Component {
   }
 }
 
-export default connect(mapStateToProps, { addTodo, newFN })(App);
+export default connect(mapStateToProps, { addTodo, toggleCompleted })(App);

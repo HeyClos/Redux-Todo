@@ -21,11 +21,19 @@ const reducer = (state = initialState, action) => {
             todos: [...state.todos, newTodo]
         }
         case TOGGLE_COMPLETED:
-        return
+        const filteredTodos = state.todos.filter(todo => {
+            if (todo.value === action.payload) {
+                todo.completed = true;
+            }
+            // line 25:not sure what to add after ===
+        });
+        return {
+            ...state,
+            todos: filteredTodos
+        };
 
-        
         default:
-        return state
+            return state
     }
 }
 

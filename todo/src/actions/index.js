@@ -8,9 +8,11 @@ export const addTodo = userInput => {
     }
 }
 
-
-export const togleCompleted = value => {
+export const toggleCompleted = value => {
     return {
-        type: TOGGLE_COMPLETED
+        type: TOGGLE_COMPLETED,
+        payload: value
     }
 }
+
+// what should value be replaced with in toggleCompleted?
